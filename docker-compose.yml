@@ -1,0 +1,86 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+services:
+  admin_api:
+    image: admin_api
+    container_name: admin_api
+    build:
+      context: ./backend/Petting.Admin
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - rabbitmq_url=rabbitmq
+      - rabbitmq_user=admin
+      - rabbitmq_password=admin
+    ports:
+      - '5001:80'
+    depends_on:
+      - keycloak
+      - rabbitmq
+    networks:
+      - app
+      - gateway
+
+  gateway:
+    image: ocelot
+    container_name: ocelot
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - '5000:80'
+    networks:
+      - gateway
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+     - RABBITMQ_ERLANG_COOKIE=Petting.Queues
+     - RABBITMQ_DEFAULT_USER=admin
+     - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - app
+    
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=bn_keycloak
+      - POSTGRESQL_DATABASE=bitnami_keycloak
+    networks:
+      - keycloak_net
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+
+  keycloak:
+    image: docker.io/bitnami/keycloak:16
+    depends_on:
+      - postgresql
+    ports:
+      - "80:8080"
+    networks:
+      - keycloak_net
+      - app
+
+volumes:
+  db_volume:
+    external: false
+  postgresql_data:
+    driver: local
+
+networks:
+  app:
+    driver: bridge
+  gateway:
+    driver: bridge
+  keycloak_net:
+    driver: bridge

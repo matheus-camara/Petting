@@ -1,0 +1,28 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "admin_api",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/admin/",
+            "UpstreamHttpMethod": [ "Get" ],
+        },
+        {
+            "DownstreamPathTemplate": "/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+              {
+                "Host": "admin_api",
+                "Port": 80
+              }
+            ],
+            "UpstreamPathTemplate": "/admin/{everything}",
+            "UpstreamHttpMethod": [ "Get" ]
+        },
+        ]
+}
