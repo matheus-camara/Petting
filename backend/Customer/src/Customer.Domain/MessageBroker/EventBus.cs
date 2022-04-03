@@ -6,7 +6,7 @@ using ProtoBuf;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Admin.Domain.MessageBroker;
+namespace Customer.Domain.MessageBroker;
 
 public class EventBus : IDisposable, IMessagePublisher, IMessageListener
 {
@@ -35,8 +35,6 @@ public class EventBus : IDisposable, IMessagePublisher, IMessageListener
             {
                 var properties = _channel.CreateBasicProperties();
                 properties.DeliveryMode = PERSISTENT;
-                properties.MessageId = eventId;
-                properties.Timestamp = new AmqpTimestamp(DateTime.UtcNow.Subtract(DateTime.UnixEpoch).Ticks);
 
                 _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", eventId);
 
@@ -57,14 +55,14 @@ public class EventBus : IDisposable, IMessagePublisher, IMessageListener
         return ctx;
     }
 
-    public void Subscribe<T>(string eventName, string exchange, Action<T, Action<bool>> onMessage) where T : IExtensible
+    public IModel Subscribe<T>(string eventName, string exchange, Func<T, Action<bool>, Task> onMessage) where T : IExtensible
     {
         var channel = _connection.CreateModel();
         DeclareExchange(eventName, exchange, channel);
 
-        var queue = channel.QueueDeclare(eventName, true, true);
+        var queue = channel.QueueDeclare(eventName, true, false, false);
 
-        channel.QueueBind(queue.QueueName, exchange, string.Empty);
+        channel.QueueBind(queue.QueueName, exchange, queue.QueueName);
 
         var consumer = new EventingBasicConsumer(channel);
         consumer.Received += (_, message) =>
@@ -73,10 +71,12 @@ public class EventBus : IDisposable, IMessagePublisher, IMessageListener
             onMessage.Invoke(@event, (sucess) => Ack(message, sucess));
         };
 
-        channel.BasicConsume(
+        var result = channel.BasicConsume(
             queue: queue.QueueName,
             autoAck: false,
             consumer: consumer);
+
+        return channel;
     }
 
     private void Ack(BasicDeliverEventArgs message, bool sucess)

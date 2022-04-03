@@ -3,9 +3,9 @@ using MediatR;
 
 namespace Admin.Domain.Customers.Add;
 
-public class AddCostumerMessage : Message, IRequest
+public class AddCustomerMessage : IRequest
 {
-    public AddCostumerMessage(string firstName, string lastName)
+    public AddCustomerMessage(string firstName, string lastName)
     {
         FirstName = firstName;
         LastName = lastName;

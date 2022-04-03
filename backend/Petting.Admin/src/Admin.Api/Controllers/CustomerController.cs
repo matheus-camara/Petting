@@ -14,7 +14,7 @@ public class CustomerController : MediatorController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AddCostumerMessage message)
+    public async Task<IActionResult> Add([FromBody] AddCustomerMessage message)
     {
         await Mediator.Send(message);
         return Ok();

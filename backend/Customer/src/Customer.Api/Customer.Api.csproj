@@ -12,11 +12,12 @@
       <PackageReference Include="Petting.ApiActions" Version="1.0.3" />
       <PackageReference Include="Petting.Notify" Version="1.0.1" />
       <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Admin.Domain\Admin.Domain.csproj" />
+    <ProjectReference Include="..\Customer.Domain\Customer.Domain.csproj" />
+    <ProjectReference Include="..\Customer.Infra\Customer.Infra.csproj" />
   </ItemGroup>
 
 </Project>

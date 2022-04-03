@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace Admin.Domain.Customers.Add;
 
-public class AddCostumerMessageValidator : AbstractValidator<AddCostumerMessage>
+public class AddCustomerMessageValidator : AbstractValidator<AddCustomerMessage>
 {
-    public AddCostumerMessageValidator()
+    public AddCustomerMessageValidator()
     {
         RuleFor(x => x.FirstName)
             .NotEmpty();

@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Admin.Domain.Customers.Update;
 
-public record UpdateCostumerMessage
+public record UpdateCustomerMessage
 (
     string FirstName,
     string LastName

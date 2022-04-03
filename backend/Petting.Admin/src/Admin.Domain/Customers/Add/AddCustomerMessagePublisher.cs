@@ -4,20 +4,20 @@ using MediatR;
 
 namespace Admin.Domain.Customers.Add;
 
-public class AddCostumerMessagePublisher : BasePublisher, IRequestHandler<AddCostumerMessage>
+public class AddCustomerMessagePublisher : BasePublisher, IRequestHandler<AddCustomerMessage>
 {
-    public AddCostumerMessagePublisher(IMessagePublisher eventBus) : base(eventBus)
+    public AddCustomerMessagePublisher(IMessagePublisher eventBus) : base(eventBus)
     {
     }
 
-    public Task<Unit> Handle(AddCostumerMessage request, CancellationToken cancellationToken)
+    public Task<Unit> Handle(AddCustomerMessage request, CancellationToken cancellationToken)
     {
-        const string EVENT = "add-costumer";
+        const string EVENT = "add-customer";
         const string EXCHANGE = $"{EVENT}-exchange";
         EventBus.Publish
         (
             EVENT,
-            new AddCostumerEvent
+            new AddCustomerEvent
             {
                 firstName = request.FirstName,
                 lastName = request.LastName
