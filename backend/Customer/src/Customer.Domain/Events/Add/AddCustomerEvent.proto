@@ -1,7 +1,0 @@
-syntax = "proto3";
-option csharp_namespace = "Customer.Domain.Events.Add";
-
-message AddCustomerEvent {
-    string firstName = 1;
-    string lastName = 2;
-}

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>5f661ead-0e72-4d87-bc5a-cd0150b5456c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="OpenTelemetry" Version="1.3.0" />
+      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.3.0" />
+      <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.4" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.4" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.4" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9.4" />
+      <PackageReference Include="Paramore.Brighter" Version="9.1.2" />
+      <PackageReference Include="Paramore.Brighter.Extensions.DependencyInjection" Version="9.1.2" />
+      <PackageReference Include="Petting.ApiActions" Version="1.0.4" />
+      <PackageReference Include="Petting.Notify" Version="1.0.1" />
+      <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Customers.Localization\Customers.Localization.csproj" />
+    <ProjectReference Include="..\Customers.Domain\Customers.Domain.csproj" />
+    <ProjectReference Include="..\Customers.Infra\Customers.Infra.csproj" />
+  </ItemGroup>
+
+</Project>
